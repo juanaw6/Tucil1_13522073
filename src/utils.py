@@ -1,26 +1,25 @@
 import random
 
 def isAlphanumeric(token):
-    num = list(map(str, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]))
-    alfa = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    alfanum = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+               'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+               'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     if len(token) != 2 :
         return False
-    if token[0] not in num and token[0] not in alfa :
-        return False
-    if token[1] not in num and token[1] not in alfa :
-        return False
-    return True
+    if token[0] in alfanum and token[1] in alfanum :
+        return True
+    return False
 
-def input_valid_int(msg):
+def input_valid_int(msg, min):
     while True :
         try :
             integer = int(input(f"\n{msg}"))
-            if integer <= 0 :
-                print("\nInvalid, input must be integer greater than 0.")
+            if integer < min :
+                print(f"\nInvalid, input must be integer greater than {min - 1}.")
             else :
                 return integer
         except :
-            print("\nInvalid, input must be integer greater than 0.")
+            print(f"\nInvalid, input must be integer greater than {min - 1}.")
 
 def input_valid_an(msg):
     while True :
@@ -44,7 +43,7 @@ def generate_sequences(num, max_length, tokens):
     sequences = []
     list_of_seq = []
     for _ in range(num):
-        length = random.randint(1, max_length)
+        length = random.randint(2, max_length)
         while True:
             seq = " ".join([random.choice(tokens) for _ in range(length)])
             if seq not in list_of_seq :
@@ -56,18 +55,18 @@ def generate_sequences(num, max_length, tokens):
 
 
 def user_input():
-    n_unique_token = input_valid_int("Number of unique tokens: ")
+    n_unique_token = input_valid_int("Number of unique tokens: ", 1)
     tokens = []
     for i in range(n_unique_token) :
-        token = input_valid_an(f"Input alphanumeric no.{i + 1} (A1, 3E, etc.): ")
+        token = input_valid_an(f"Input alphanumeric token no.{i + 1} (A1, 3E, etc.): ")
         tokens.append(token)
-    buffer_length = input_valid_int("Input buffer length: ")
-    matrix_col = input_valid_int("Input matrix column size: ")
-    matrix_row = input_valid_int("Input matrix row size: ")
+    buffer_length = input_valid_int("Input buffer length: ", 1)
+    matrix_col = input_valid_int("Input matrix column size: ", 1)
+    matrix_row = input_valid_int("Input matrix row size: ", 2)
     matrix_size = (matrix_col, matrix_row)
     matrix = generate_matrix(matrix_size, tokens)
-    num_sequence = input_valid_int("Input number of sequences: ")
-    max_sequence_length = input_valid_int("Input maximum sequence's length: ")
+    num_sequence = input_valid_int("Input number of sequences: ", 1)
+    max_sequence_length = input_valid_int("Input maximum sequence's length: ", 2)
     sequences = generate_sequences(num_sequence, max_sequence_length, tokens)
 
     return buffer_length, matrix_size, matrix, num_sequence, sequences
@@ -109,7 +108,7 @@ def read_file():
             print("\nFile not found.")
     
 def save_file(reward_info):
-    filename = input("\nInput filename: ")
+    filename = input("\nInput filename (no need for extension): ")
     file_path = f"../test/output/{filename}.txt"
 
     output_str = ""

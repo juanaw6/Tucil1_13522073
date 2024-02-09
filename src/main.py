@@ -7,10 +7,22 @@ def search_path(matrix, row, col, path, path_coordinate, n, visited, can_horizon
     if visited[row][col]:
         return
 
+    # # For optimized version, stop when current path's reward is the maximum reward (All reward must be > 0)
+    # if reward_info['max_reward'] == reward_info['max'] :
+    #     return
+    
     visited[row][col] = True
     path.append(matrix[row][col])
     path_coordinate.append([col + 1, row + 1])
 
+    current_path_str = " ".join(path)
+    reward = sum(seq[1] for seq in sequences if seq[0] in current_path_str)
+    
+    if reward > reward_info['max_reward']:
+        reward_info['max_reward'] = reward
+        reward_info['max_reward_seq'] = current_path_str
+        reward_info['seq_coordinate'] = path_coordinate.copy()
+    
     if n > 0:
         if can_horizontal:
             new_col = col - 1
@@ -33,21 +45,14 @@ def search_path(matrix, row, col, path, path_coordinate, n, visited, can_horizon
                 search_path(matrix, new_row, col, path, path_coordinate, n - 1, visited, True, sequences, reward_info)
                 new_row += 1
 
-    current_path_str = " ".join(path)
-    reward = sum(seq[1] for seq in sequences if seq[0] in current_path_str)
-    
-    if reward > reward_info['max_reward']:
-        reward_info['max_reward'] = reward
-        reward_info['max_reward_seq'] = current_path_str
-        reward_info['seq_coordinate'] = path_coordinate.copy()
-
     visited[row][col] = False
     path.pop()
     path_coordinate.pop()
 
 def find_sequences(matrix, n, sequences):
     visited = [[False for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
-    reward_info = {'max_reward': 0, 'max_reward_seq': matrix[0][0], 'seq_coordinate': [[1, 1]]}
+    max_r = sum(seq[1] for seq in sequences)
+    reward_info = {'max': max_r,'max_reward': 0, 'max_reward_seq': matrix[0][0], 'seq_coordinate': [[1, 1]]}
 
     for col in range(len(matrix[0])):
         search_path(matrix, 0, col, [], [], n, visited, False, sequences, reward_info)
@@ -83,8 +88,8 @@ start = time.time()
 result = find_sequences(matrix, buffer_length - 1, sequences)
 duration = round((time.time() - start) * 1000)
 print(f"Reward: {result['max_reward']}")
-print(f"Buffer: {result['max_reward_seq']}")
-print(f"Buffer's Token Coordinate: ")
+print(f"Solution: {result['max_reward_seq']}")
+print(f"Solution's Token Coordinate: ")
 for cdn in result['seq_coordinate']:
     print(f"{cdn[0]}, {cdn[1]}")
 print(f"\n{duration} ms\n")
@@ -92,7 +97,8 @@ print(f"\n{duration} ms\n")
 while True :
     choice = input("Do you want to save solution (y/n): ").lower()
     if choice != 'y' and choice != 'n' :
-        print("Invalid choice.")
+        print("\nInvalid choice.\n")
     else :
-        save_file(result)
+        if choice == 'y' :
+            save_file(result)
         break
