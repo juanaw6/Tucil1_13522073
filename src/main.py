@@ -7,7 +7,7 @@ def search_path(matrix, row, col, path, path_coordinate, n, visited, can_horizon
     if visited[row][col]:
         return
 
-    # # For optimized version, stop when current path's reward is the maximum reward (All reward must be > 0)
+    # # For optimized version, stop when current path's reward is the maximum reward (Best possible reward)
     # if reward_info['max_reward'] == reward_info['max'] :
     #     return
     
@@ -51,7 +51,7 @@ def search_path(matrix, row, col, path, path_coordinate, n, visited, can_horizon
 
 def find_sequences(matrix, n, sequences):
     visited = [[False for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
-    max_r = sum(seq[1] for seq in sequences)
+    max_r = sum(seq[1] for seq in sequences if seq[1] >= 0)
     reward_info = {'max': max_r,'max_reward': 0, 'max_reward_seq': matrix[0][0], 'seq_coordinate': [[1, 1]]}
 
     for col in range(len(matrix[0])):
