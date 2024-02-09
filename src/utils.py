@@ -1,6 +1,17 @@
 import random
 
-def isAlphanumeric(token):
+def print_welcome():
+    print("""
+   _____  ____  _ __      ________ _____  
+  / ____|/ __ \| |\ \    / /  ____|  __ \ 
+ | (___ | |  | | | \ \  / /| |__  | |__) |
+  \___ \| |  | | |  \ \/ / |  __| |  _  / 
+  ____) | |__| | |___\  /  | |____| | \ \ 
+ |_____/ \____/|______\/   |______|_|  \_\ """)
+    print("Welcome to Cyberpunk 2077 Breach Protocol Solver!")
+    print("Happy Solving!\n")
+
+def is_alphanumeric(token):
     alfanum = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -25,7 +36,7 @@ def input_valid_an(msg):
     while True :
         try :
             token = input(f"\n{msg}").upper()
-            if not isAlphanumeric(token):
+            if not is_alphanumeric(token):
                 print("\nInvalid, input must be alphanumeric.")
             else :
                 return token
@@ -88,8 +99,7 @@ def read_file():
                     matrix.append(row)
                 
                 num_sequence = int(lines[2 + matrix_size[1]])
-                
-                start = 3 + matrix_size[0]
+                start = 3 + matrix_size[1]
                 sequences = []
                 temp = []
                 isSequence = True

@@ -1,5 +1,5 @@
 import time
-from utils import read_file, user_input, save_file
+from utils import read_file, user_input, save_file, print_welcome
 
 def search_path(matrix, row, col, path, path_coordinate, n, visited, can_horizontal, sequences , reward_info):
     if n < 0:
@@ -59,7 +59,7 @@ def find_sequences(matrix, n, sequences):
     
     return reward_info
 
-
+print_welcome()
 while True :
     choice = input("Input from file? (y/n): ").lower()
     if choice != 'y' and choice != 'n' :
@@ -82,11 +82,11 @@ for row in sequences :
     print(f"Sequence {x} : {row[0]} (Reward: {row[1]})")
     x += 1
 
-print("\nMax Reward Solution ")
-# process
 start = time.time()
 result = find_sequences(matrix, buffer_length - 1, sequences)
 duration = round((time.time() - start) * 1000)
+
+print("\nMax Reward Solution ")
 print(f"Reward: {result['max_reward']}")
 print(f"Solution: {result['max_reward_seq']}")
 print(f"Solution's Token Coordinate: ")
