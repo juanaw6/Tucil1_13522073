@@ -1,4 +1,4 @@
-Program has no executable
+Program doesn't have any executable
 
 Run program by
 # cd src
