@@ -1,0 +1,5 @@
+Program has no executable
+
+Run program by
+# cd src
+# python min.py
