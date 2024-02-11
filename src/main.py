@@ -7,7 +7,7 @@ def search_path(matrix, row, col, path, path_coordinate, n, visited, can_horizon
     if visited[row][col]:
         return
 
-    # # For optimized version, stop when current path's reward is the maximum reward (Best possible reward)
+    # # For optimized version (still bruteforce), stop when current path's reward is the maximum reward (Best possible reward)
     # if reward_info['max_reward'] == reward_info['max'] :
     #     return
     
