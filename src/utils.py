@@ -91,11 +91,17 @@ def read_file():
                 lines = file.readlines()
 
                 buffer_length = int(lines[0].strip())
-                matrix_size = tuple(map(int, lines[1].strip().split()))
-                matrix = []
+                matrix_size = list(map(int, lines[1].strip().split()))
+                if len(matrix_size) != 2 :
+                    raise Exception
                 
+                matrix = []                
                 for i in range(2, 2 + matrix_size[1]):
                     row = lines[i].strip().split()
+                    if len(row) != matrix_size[0] :
+                        raise Exception
+                    if not all(is_alphanumeric(x) for x in row) :
+                        raise Exception
                     matrix.append(row)
                 
                 num_sequence = int(lines[2 + matrix_size[1]])
@@ -105,7 +111,10 @@ def read_file():
                 isSequence = True
                 for i in range(start, start + (num_sequence * 2)):
                     if isSequence :
-                        temp.append(" ".join(lines[i].strip().split()))
+                        line = lines[i].strip().split()
+                        if not all(is_alphanumeric(x) for x in line) :
+                            raise Exception
+                        temp.append(" ".join(line))
                         isSequence = False
                     else :
                         temp.append(int(lines[i].strip()))
@@ -115,7 +124,7 @@ def read_file():
 
                 return buffer_length, matrix_size, matrix, num_sequence, sequences
         except :
-            print("\nFile not found.")
+            print("\nFile not found or wrong file input format.")
     
 def save_file(reward_info):
     filename = input("\nInput filename (no need for extension): ")

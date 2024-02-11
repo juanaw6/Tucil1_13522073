@@ -101,4 +101,6 @@ while True :
     else :
         if choice == 'y' :
             save_file(result)
+        else :
+            print("\nProgram has ended.")
         break
