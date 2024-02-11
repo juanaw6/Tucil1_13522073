@@ -30,7 +30,7 @@ To use this program, follow these steps:
    ```
 4. Navigate to the project's src directory:
    ```
-   cd Tucil1_1352207/src
+   cd Tucil1_13522073/src
    ```
 5. Run the program:
    ```
