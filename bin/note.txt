@@ -2,4 +2,4 @@ Program doesn't have any executable
 
 Run program by
 # cd src
-# python min.py
+# python main.py
